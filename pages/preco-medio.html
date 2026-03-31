@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Calculadora de Preço Médio para declaração de IR. Calcule o preço médio de compra de suas ações, FIIs ou fundos. Essencial para Imposto de Renda." />
+  <title>Calculadora de Preço Médio - InvestCalc</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <a href="../" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+        </div>
+        <span class="logo-text">InvestCalc</span>
+      </a>
+
+      <nav class="hidden">
+        <a href="../">Início</a>
+        <a href="viver-de-renda.html">Viver de Renda</a>
+        <a href="bola-de-neve.html">Bola de Neve</a>
+        <a href="inflacao.html">Inflação</a>
+        <a href="preco-medio.html" class="active">Preço Médio</a>
+      </nav>
+
+      <button class="menu-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="min-h-screen bg-background py-8 md:py-12">
+    <div class="container mx-auto max-w-4xl">
+      <!-- Page Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-foreground">
+          Calculadora de Preço Médio
+        </h1>
+        <p class="mt-3 text-muted-foreground text-lg">
+          Calcule seu preço médio de compra para declaração de IR
+        </p>
+      </div>
+
+      <!-- Info Box -->
+      <div class="info-box mb-8">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon text-primary info-box-icon">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <div class="info-box-content">
+          <p>Sobre o Preço Médio</p>
+          <p>
+            O preço médio é usado para calcular o ganho ou perda em suas operações. A Receita Federal considera todas as compras do ano para calcular o preço médio, mesmo que você tenha vendido parte da posição.
+          </p>
+        </div>
+      </div>
+
+      <!-- Purchases Container -->
+      <div class="card mb-8">
+        <div class="card-header">
+          <h2 class="card-title flex items-center gap-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon" style="color: var(--primary);">
+              <path d="M6 9l6-6 6 6M9 20h6a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z"></path>
+            </svg>
+            Suas Compras
+          </h2>
+          <p class="card-description">
+            Adicione todas as suas compras para calcular o preço médio
+          </p>
+        </div>
+        <div class="card-content">
+          <div id="purchasesContainer" class="space-y-4 mb-6">
+            <!-- Purchases will be added here -->
+          </div>
+          
+          <button id="addButton" class="btn btn-primary w-full mb-4" style="justify-content: center;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Adicionar Compra
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Card -->
+      <div class="card mb-8" style="border-color: var(--primary); background: rgba(51, 45, 29, 0.05);">
+        <div class="card-header">
+          <h2 class="card-title">Resultado</h2>
+        </div>
+        <div class="card-content">
+          <div class="grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="text-center">
+              <p class="text-sm text-muted-foreground mb-2">Preço Médio</p>
+              <p class="text-2xl font-bold text-primary" id="averagePrice">R$ 0,00</p>
+            </div>
+            <div class="text-center">
+              <p class="text-sm text-muted-foreground mb-2">Quantidade Total</p>
+              <p class="text-2xl font-bold text-foreground" id="totalQuantity">0</p>
+            </div>
+            <div class="text-center">
+              <p class="text-sm text-muted-foreground mb-2">Custo Total</p>
+              <p class="text-2xl font-bold text-foreground" id="totalCost">R$ 0,00</p>
+            </div>
+            <div class="text-center">
+              <p class="text-sm text-muted-foreground mb-2">Total de Taxas</p>
+              <p class="text-2xl font-bold" style="color: var(--chart-1);" id="totalFees">R$ 0,00</p>
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+            <button id="copyButton" class="btn btn-primary flex-1" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+                <polyline points="8 17 21 17 21 7 8 7"></polyline>
+                <rect x="1" y="11" width="6" height="6"></rect>
+              </svg>
+              Copiar Resultado
+            </button>
+            <button id="resetButton" class="btn btn-outline">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                <path d="M21 3v5h-5"></path>
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                <path d="M3 21v-5h5"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Como usar?</h2>
+        </div>
+        <div class="card-content space-y-4">
+          <div class="space-y-2">
+            <h3 class="font-semibold">1. Adicione suas compras</h3>
+            <p class="text-sm text-muted-foreground">
+              Preencha a data, quantidade, preço unitário e qualquer taxa de corretagem ou impostos
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-semibold">2. Veja o resultado</h3>
+            <p class="text-sm text-muted-foreground">
+              A calculadora calcula automaticamente seu preço médio de compra
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-semibold">3. Use na sua declaração</h3>
+            <p class="text-sm text-muted-foreground">
+              Use o preço médio calculado na sua declaração de IR como o preço de compra médio do ativo
+            </p>
+          </div>
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <p class="text-xs text-muted-foreground">
+              <strong>⚠️ Avistamento:</strong> Esta calculadora é apenas para fins informativos. Consulte um contador para sua declaração de IR.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/preco-medio.js"></script>
+</body>
+</html>

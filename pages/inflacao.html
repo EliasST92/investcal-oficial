@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Conversor de Inflação usando IPCA. Descubra quanto R$ de anos atrás valem hoje. Analise a evolução do poder de compra." />
+  <title>Conversor de Inflação - InvestCalc</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <a href="../" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+        </div>
+        <span class="logo-text">InvestCalc</span>
+      </a>
+
+      <nav class="hidden">
+        <a href="../">Início</a>
+        <a href="viver-de-renda.html">Viver de Renda</a>
+        <a href="bola-de-neve.html">Bola de Neve</a>
+        <a href="inflacao.html" class="active">Inflação</a>
+        <a href="preco-medio.html">Preço Médio</a>
+      </nav>
+
+      <button class="menu-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="min-h-screen bg-background py-8 md:py-12">
+    <div class="container mx-auto max-w-4xl">
+      <!-- Page Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-foreground">
+          Conversor de Inflação
+        </h1>
+        <p class="mt-3 text-muted-foreground text-lg">
+          Descubra quanto R$ de anos atrás valem hoje baseado no IPCA
+        </p>
+      </div>
+
+      <!-- Input Card -->
+      <div class="card mb-8">
+        <div class="card-header">
+          <h2 class="card-title flex items-center gap-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon" style="color: var(--primary);">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+              <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+            Converter Valor
+          </h2>
+          <p class="card-description">
+            Informe o valor e o período para calcular a inflação
+          </p>
+        </div>
+        <div class="card-content">
+          <div class="space-y-4">
+            <div>
+              <label class="label" for="amount">Valor</label>
+              <div class="input-wrapper mt-2">
+                <span class="input-prefix">R$</span>
+                <input
+                  id="amount"
+                  type="text"
+                  class="input"
+                  placeholder="1.000"
+                  value="1.000"
+                />
+              </div>
+            </div>
+
+            <div class="grid-cols-2 gap-4">
+              <div>
+                <label class="label" for="startYear">Ano Inicial</label>
+                <select id="startYear" class="input" style="margin-top: 0.5rem;">
+                  <!-- Options will be populated by JS -->
+                </select>
+              </div>
+              <div>
+                <label class="label" for="endYear">Ano Final</label>
+                <select id="endYear" class="input" style="margin-top: 0.5rem;">
+                  <!-- Options will be populated by JS -->
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="card mb-8" style="border-color: var(--primary); background: rgba(51, 45, 29, 0.05);">
+        <div class="card-content pt-6">
+          <div class="text-center">
+            <p class="text-muted-foreground mb-4">
+              Valor Corrigido pela Inflação
+            </p>
+            <p class="text-5xl font-bold text-primary mb-4" id="finalValue">
+              R$ 1.000
+            </p>
+            <div class="grid-cols-2 gap-4 border-t border-border pt-6">
+              <div>
+                <p class="text-sm text-muted-foreground mb-1">Inflação Acumulada</p>
+                <p class="text-2xl font-bold text-primary" id="inflationPercent">0.00%</p>
+              </div>
+              <div>
+                <p class="text-sm text-muted-foreground mb-1">Diferença</p>
+                <p class="text-2xl font-bold" style="color: var(--chart-1);" id="difference">R$ 0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="card mb-8">
+        <div class="card-header">
+          <h2 class="card-title flex items-center gap-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+              <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"></polyline>
+              <polyline points="12 12 20 7.5"></polyline>
+              <polyline points="12 12 12 21"></polyline>
+              <polyline points="12 12 4 7.5"></polyline>
+            </svg>
+            Evolução do Valor
+          </h2>
+          <p class="card-description">
+            Visualize como o valor se ajusta pela inflação ao longo dos anos
+          </p>
+        </div>
+        <div class="card-content">
+          <div id="chart-container" style="width: 100%; height: 250px; min-height: 250px;"></div>
+        </div>
+      </div>
+
+      <!-- Share Section -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Compartilhar nos Chats</h2>
+          <p class="card-description">
+            Use essas frases para impressionar no WhatsApp e redes sociais
+          </p>
+        </div>
+        <div class="card-content space-y-3">
+          <div class="flex items-center justify-between p-3 border border-border rounded-lg bg-secondary">
+            <p id="shareText1" class="text-sm">
+              Há 10 anos R$ 1.000 valiam diferente!
+            </p>
+            <button class="btn btn-primary btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('shareText1').textContent); this.textContent = 'Copiado!'; setTimeout(() => this.textContent = 'Copiar', 2000);">
+              Copiar
+            </button>
+          </div>
+          <div class="flex items-center justify-between p-3 border border-border rounded-lg bg-secondary">
+            <p id="shareText2" class="text-sm">
+              A inflação é real! R$ 1.000 de 2010 equivalem a muito mais hoje.
+            </p>
+            <button class="btn btn-primary btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('shareText2').textContent); this.textContent = 'Copiado!'; setTimeout(() => this.textContent = 'Copiar', 2000);">
+              Copiar
+            </button>
+          </div>
+          <div class="flex" style="gap: 0.5rem;">
+            <button id="copyButton" class="btn btn-primary flex-1">
+              Copiar Resultado
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/inflacao.js"></script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Calculadora para descobrir quanto você precisa investir em FIIs ou ETFs para ter renda passiva mensal. Análise de cenários com diferentes yields." />
+  <title>Calculadora Viver de Renda - InvestCalc</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <a href="../" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+        </div>
+        <span class="logo-text">InvestCalc</span>
+      </a>
+
+      <nav class="hidden">
+        <a href="../">Início</a>
+        <a href="viver-de-renda.html" class="active">Viver de Renda</a>
+        <a href="bola-de-neve.html">Bola de Neve</a>
+        <a href="inflacao.html">Inflação</a>
+        <a href="preco-medio.html">Preço Médio</a>
+      </nav>
+
+      <button class="menu-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="min-h-screen bg-background py-8 md:py-12">
+    <div class="container mx-auto max-w-4xl">
+      <!-- Page Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-foreground">
+          Calculadora Viver de Renda
+        </h1>
+        <p class="mt-3 text-muted-foreground text-lg">
+          Descubra quanto você precisa investir para alcançar sua liberdade financeira
+        </p>
+      </div>
+
+      <!-- Input Card -->
+      <div class="card mb-8">
+        <div class="card-header">
+          <h2 class="card-title flex items-center gap-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon" style="color: var(--primary);">
+              <circle cx="12" cy="12" r="1"></circle>
+              <path d="M12 1v6m0 6v6"></path>
+              <path d="M4.22 4.22l4.24 4.24m2.12 2.12l4.24 4.24"></path>
+              <path d="M1 12h6m6 0h6"></path>
+              <path d="M4.22 19.78l4.24-4.24m2.12-2.12l4.24-4.24"></path>
+            </svg>
+            Quanto você quer receber por mês?
+          </h2>
+          <p class="card-description">
+            Informe a renda mensal desejada em Reais
+          </p>
+        </div>
+        <div class="card-content">
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex-1">
+              <label class="label" for="income">Renda Mensal Desejada</label>
+              <div class="input-wrapper mt-2">
+                <span class="input-prefix">R$</span>
+                <input
+                  id="income"
+                  type="text"
+                  class="input"
+                  placeholder="5.000"
+                  style="font-size: 1.125rem; height: 3rem; padding-left: 2.5rem;"
+                  value="5.000"
+                />
+              </div>
+            </div>
+            <div class="w-full md:w-48">
+              <label class="label" for="usd">Cotação do Dólar</label>
+              <div class="input-wrapper mt-2">
+                <span class="input-prefix">R$</span>
+                <input
+                  id="usd"
+                  type="text"
+                  class="input"
+                  placeholder="5,00"
+                  style="font-size: 1.125rem; height: 3rem; padding-left: 2.5rem;"
+                  value="5,00"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Tabs -->
+      <div class="tabs space-y-6">
+        <div class="tabs-list">
+          <button class="tab-button active" data-tab="fii">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
+            FIIs Brasil
+          </button>
+          <button class="tab-button" data-tab="etf">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+              <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+            ETFs EUA
+          </button>
+        </div>
+
+        <!-- FII Tab -->
+        <div id="fii-tab" class="tab-content active space-y-6">
+          <!-- FII Yield Card -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Yield Médio Mensal dos FIIs</h2>
+              <p class="card-description">
+                Ajuste o rendimento médio esperado dos Fundos Imobiliários
+              </p>
+            </div>
+            <div class="card-content space-y-6">
+              <div class="preset-buttons">
+                <button class="preset-btn active fii-preset" data-yield="0.65">
+                  Conservador (0.65%)
+                </button>
+                <button class="preset-btn fii-preset" data-yield="0.80">
+                  Moderado (0.80%)
+                </button>
+                <button class="preset-btn fii-preset" data-yield="1.00">
+                  Agressivo (1.00%)
+                </button>
+              </div>
+
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <label class="label">Yield Mensal</label>
+                  <span class="text-2xl font-bold text-primary" id="fiiYieldDisplay">0.80%</span>
+                </div>
+                <input
+                  id="fiiSlider"
+                  type="range"
+                  min="0.3"
+                  max="1.5"
+                  step="0.05"
+                  value="0.80"
+                  style="width: 100%; cursor: pointer;"
+                />
+                <div class="flex justify-between text-xs text-muted-foreground">
+                  <span>0.30%</span>
+                  <span>1.50%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FII Result -->
+          <div class="card" style="border-color: rgba(51, 45, 29, 0.3); background: rgba(51, 45, 29, 0.05);">
+            <div class="card-content pt-6">
+              <div class="text-center">
+                <p class="text-muted-foreground mb-2">
+                  Para receber <span class="font-semibold text-foreground" id="fiiIncomeDisplay">R$ 5.000</span>/mês você precisa de:
+                </p>
+                <p class="text-4xl md:text-5xl font-bold text-primary" id="fiiRequired">
+                  R$ 625.000
+                </p>
+                <p class="mt-4 text-sm text-muted-foreground">
+                  investidos em Fundos Imobiliários com yield de <span id="fiiYieldSpan">0.80%</span> a.m.
+                </p>
+              </div>
+
+              <div class="mt-8 grid-cols-2 gap-4 border-t border-border pt-6">
+                <div class="text-center">
+                  <p class="text-sm text-muted-foreground">Yield Anual</p>
+                  <p class="text-xl font-semibold text-foreground" id="fiiAnnualYield">9.60%</p>
+                </div>
+                <div class="text-center">
+                  <p class="text-sm text-muted-foreground">Renda Anual</p>
+                  <p class="text-xl font-semibold text-foreground" id="fiiAnnualIncome">R$ 60.000</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETF Tab -->
+        <div id="etf-tab" class="tab-content space-y-6">
+          <!-- ETF Yield Card -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Dividend Yield Mensal dos ETFs</h2>
+              <p class="card-description">
+                Selecione um ETF popular ou ajuste o yield manualmente
+              </p>
+            </div>
+            <div class="card-content space-y-6">
+              <div class="preset-buttons">
+                <button class="preset-btn etf-preset" data-yield="0.30">
+                  SCHD (0.30%)
+                </button>
+                <button class="preset-btn active etf-preset" data-yield="0.65">
+                  JEPI (0.65%)
+                </button>
+                <button class="preset-btn etf-preset" data-yield="0.75">
+                  JEPQ (0.75%)
+                </button>
+                <button class="preset-btn etf-preset" data-yield="0.90">
+                  QYLD (0.90%)
+                </button>
+              </div>
+
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <label class="label">Yield Mensal</label>
+                  <span class="text-2xl font-bold text-primary" id="etfYieldDisplay">0.65%</span>
+                </div>
+                <input
+                  id="etfSlider"
+                  type="range"
+                  min="0.1"
+                  max="1.2"
+                  step="0.05"
+                  value="0.65"
+                  style="width: 100%; cursor: pointer;"
+                />
+                <div class="flex justify-between text-xs text-muted-foreground">
+                  <span>0.10%</span>
+                  <span>1.20%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ETF Result -->
+          <div class="card" style="border-color: rgba(51, 45, 29, 0.3); background: rgba(51, 45, 29, 0.05);">
+            <div class="card-content pt-6">
+              <div class="text-center">
+                <p class="text-muted-foreground mb-2">
+                  Para receber <span class="font-semibold text-foreground" id="etfIncomeDisplay">R$ 5.000</span>/mês você precisa de:
+                </p>
+                <p class="text-4xl md:text-5xl font-bold text-primary" id="etfRequired">
+                  USD 76.923
+                </p>
+                <p class="mt-2 text-lg text-muted-foreground">
+                  ≈ <span id="etfRequiredBrl">R$ 384.615</span> em Reais
+                </p>
+                <p class="mt-4 text-sm text-muted-foreground">
+                  investidos em ETFs com yield de <span id="etfYieldSpan">0.65%</span> a.m.
+                </p>
+              </div>
+
+              <div class="mt-8 grid-cols-3 gap-4 border-t border-border pt-6">
+                <div class="text-center">
+                  <p class="text-sm text-muted-foreground">Yield Anual</p>
+                  <p class="text-xl font-semibold text-foreground" id="etfAnnualYield">7.80%</p>
+                </div>
+                <div class="text-center">
+                  <p class="text-sm text-muted-foreground">Renda em USD</p>
+                  <p class="text-xl font-semibold text-foreground" id="etfIncomeUsd">USD 1.000/mês</p>
+                </div>
+                <div class="text-center">
+                  <p class="text-sm text-muted-foreground">Renda Anual</p>
+                  <p class="text-xl font-semibold text-foreground" id="etfAnnualIncome">R$ 60.000</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info Box -->
+          <div class="info-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon text-primary info-box-icon">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <div class="info-box-content">
+              <p>Sobre os ETFs</p>
+              <p>
+                JEPI e JEPQ são ETFs de covered call que oferecem yields mais altos, 
+                mas com menor potencial de valorização. SCHD foca em crescimento de dividendos 
+                com yield menor porém mais sustentável.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/viver-de-renda.js"></script>
+</body>
+</html>
